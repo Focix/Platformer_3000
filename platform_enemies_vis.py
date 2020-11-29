@@ -1,3 +1,6 @@
+import tkinter
+from tkinter.filedialog import *
+
 def create_shooter_image(map, shooter):
     """Создаёт отображаемый объект стрелка(стрелок - АФК персонаж).
 
@@ -47,3 +50,6 @@ def create_bullet_image(map, bullet):
     width = bullet.width
     if bullet.time == 1:
         shooter.image = map.create_rectangle(x - length//2, y - width//2, x + length//2, y + width//2,fill="black")
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")

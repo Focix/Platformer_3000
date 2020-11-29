@@ -56,3 +56,7 @@ class Hero():
     
     def decrease_stamina(x):
         self.stamina -= x
+
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")
