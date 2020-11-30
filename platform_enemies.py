@@ -1,7 +1,8 @@
 import tkinter
-from tkinter.filedialog import *
 from platform_enemies_model import *
 from platform_enemies_vis import *
+
+
 class Shooter:
     """Тип данных, описывающий стрелка.
     Содержит координаты, размер, число жизней стрелка,
@@ -16,7 +17,7 @@ class Shooter:
     x = ...
     """Координата по оси **x**"""
     y = ...
-    """Координата по оси **y**"""    
+    """Координата по оси **y**"""
     a = ...
     """Сторона квадрата стрелка"""
     color = "black"
@@ -47,6 +48,7 @@ class Fighter:
     image = None
     """Изображение бойца"""
 
+
 class Bullet:
     """Тип данных, описывающий пулю.
     Содержит  координаты, скорость, размеры пули,
@@ -71,5 +73,6 @@ class Bullet:
     image = None
     """Изображение пули"""
 
+
 if __name__ == "__main__":
-        print("This module is not for direct call!")
+    print("This module is not for direct call!")

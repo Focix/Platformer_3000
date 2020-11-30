@@ -1,17 +1,19 @@
 import tkinter
-from tkinter.filedialog import *
+
+
 def move_enemies_fighter(map, body, hero, base, dt):
     """Перемещает бойца 
         hero - главный герой (гг)
         map - вся наша карта, ну или платформа
         base - объект, по которому движется боец
        **body** — боец, которого нужно переместить.
-    """    
+    """
     body.x += body.Vx * dt
 
-    if body.x - body.a//2 >= base.x0 or body.x + body.a//2 >= base.x1 : 
+    if body.x - body.a // 2 >= base.x0 or body.x + body.a // 2 >= base.x1:
         body.Vx = -body.Vx
-    if hero.x == body.x - body.a and hero.y == base.y : # Тут должно быть условие столкновения бойца с гг
+    if hero.x == body.x - body.a and hero.y == base.y:  # Тут должно быть
+        # условие столкновения бойца с гг
         body.time = 0
     map.move(body.image, body.Vx, body.Vy)
 
@@ -23,11 +25,14 @@ def move_enemies_bullet(map, body, hero, base, dt):
          base - объект, по которому движется гг
         **body** — пуля, которую нужно переместить."""
     body.x += body.Vx * dt
-    if hero.y == ... and hero.x == base.x0 + ... : # Тут должно быть условие появления пули (когда гг достаточно длизок к стрелку)
+    if hero.y == ... and hero.x == base.x0 + ...:  # Тут должно быть условие
+        # появления пули (когда гг достаточно длизок к стрелку)
         bullet.time = 1
-    if hero.x == body.x - body.length//2 : # Тут должно быть условие столкновения пули с гг
+    if hero.x == body.x - body.length // 2:  # Тут должно быть условие
+        # столкновения пули с гг
         bullet.time = 0
     map.move(body.image, body.Vx, body.Vy)
+
 
 '''
     body.x, body.y, body.Vx, body.Vy, body.a = tuple
@@ -41,6 +46,7 @@ def move_enemies_bullet(map, body, hero, base, dt):
     return new_tuple_fighter
     '''
 
+
 def recalculate_enemies_positions(map, map_objects, dt):
     """Пересчитывает координаты объектов.
 
@@ -53,6 +59,7 @@ def recalculate_enemies_positions(map, map_objects, dt):
     for body in map_objects:
         move_enemies_fighter(map, body, hero, base, dt)
         move_enemies_bullet(map, body, hero, base, dt)
+
 
 if __name__ == "__main__":
     print("This module is not for direct call!")

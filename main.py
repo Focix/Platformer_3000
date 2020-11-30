@@ -1,5 +1,10 @@
 from tkinter import *
-
+from platform_enemies_vis import *
+from platform_enemies import *
+from Character import *
+from platform_map import *
+from platform_enemies_model import *
+import time
 
 
 tk = Tk() # создаём новый объект — окно с игровым полем, в нашем случае переменная окна называется tk
@@ -11,15 +16,14 @@ canvas.pack()  # говорим холсту, что у каждого види�
 tk.update() # обновляем окно с холстом
 
 
-perform_execution = False
-
 physical_time = 0
 
 displayed_time = None
 
 time_step = None
 
-
+x_start = 100
+y_start = 50
 
 """
 включение меню
@@ -28,28 +32,37 @@ menu = Menu(canvas)
 """
 загрузка карты, врагов и героев
 """
-score = Score(canvas) #создает объект счет
-hero = Hero(canvas, x_start, y_start)# создает объект героя
-fighter = Fighter(canvas, x, y)
-shooter = Shooter(canvas, x, y)
-enemies_list = [fighter, shooter]# создает лист врагов
+pl1 = Platform(100, 50, "red", canvas)
+global platform_list
+platform_list = [pl1]
+#score = Score(canvas) #создает объект счет
+hero = Hero(x_start, y_start, canvas)# создает объект героя
+#fighter = Fighter(canvas, x, y)
+#shooter = Shooter(canvas, x, y)
+#enemies_list = [fighter, shooter]# создает лист врагов
 
 
-while hero_health >0:
-    if menu.started == True:
-        map.draw()
-        hero.draw()
-        score.draw()
-        for enemy in enemies_list:
-            enemy.draw()
+        #map.draw()
+tk.update()
+
+        #score.draw()
+        #for enemy in enemies_list:
+            #enemy.draw()
         #тут должны выполяняться бинды на движение героя
-        tk.update_idletasks()
-        tk.update()
-    """
-    каждый промежуток времени обновлять положение врагов и проверять, если нажата
-    кнопка вправо, то движение вправо; если влево, то влево; если вверх, то прыжок;
-    если пробел, то удар
-    """
+while hero.x<=500:
+    hero.draw(canvas)
+    tk.update()
+    time.sleep(0.01)
+
+
+
+
+time.sleep(3)
+"""
+каждый промежуток времени обновлять положение врагов и проверять, если нажата
+кнопка вправо, то движение вправо; если влево, то влево; если вверх, то прыжок;
+если пробел, то удар
+"""
 
 
 """
