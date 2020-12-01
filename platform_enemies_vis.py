@@ -1,4 +1,4 @@
-def create_shooter_image(map, shooter):
+def shooter.draw(map, shooter):
     """Создаёт отображаемый объект стрелка(стрелок - АФК персонаж).
 
     Параметры:
@@ -13,19 +13,13 @@ def create_shooter_image(map, shooter):
         shooter.image = map.create_rectangle(x - a//2, y - a//2, x + a//2, y + a//2,fill="white")
 
 
-def create_fighter_image(map, fighter):
+def fighter.draw(map, fighter):
     """Создаёт отображаемый объект бойца.
 
     Параметры:
 
     **space** — холст для рисования.
     **fighter** — объект бойца.
-    
-    x = scale_x(planet.x)
-    y = scale_y(planet.y)
-    r = planet.R
-    planet.image = space.create_oval([x - r, y - r], [x + r, y + r],
-                                     fill=planet.color)
 """
     x = fighter.x
     y = fighter.y
@@ -33,7 +27,7 @@ def create_fighter_image(map, fighter):
     if bullet.time == 1:
         fighter.image = map.create_rectangle(x - a//2, y - a//2, x + a//2, y + a//2,fill="blue")
 
-def create_bullet_image(map, bullet):
+def bullet.draw(map, bullet, shooter):
     """Создаёт отображаемый объект пули.
 
     Параметры:
@@ -41,8 +35,8 @@ def create_bullet_image(map, bullet):
     **map** — холст для рисования.
     **bullet** — объект пули.
     """
-    x = bullet.x
-    y = bullet.y
+    x = shooter.x
+    y = shooter.y
     length = bullet.length
     width = bullet.width
     if bullet.time == 1:
