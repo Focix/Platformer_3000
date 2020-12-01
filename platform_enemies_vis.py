@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 def shooter.draw(map, shooter):
+=======
+import tkinter
+from tkinter.filedialog import *
+
+def create_shooter_image(map, shooter):
+>>>>>>> d0a2832c7094fa21aae084cd1954640d03972fc9
     """Создаёт отображаемый объект стрелка(стрелок - АФК персонаж).
 
     Параметры:
@@ -41,3 +48,6 @@ def bullet.draw(map, bullet, shooter):
     width = bullet.width
     if bullet.time == 1:
         shooter.image = map.create_rectangle(x - length//2, y - width//2, x + length//2, y + width//2,fill="black")
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")

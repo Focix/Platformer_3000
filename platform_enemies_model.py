@@ -1,3 +1,5 @@
+import tkinter
+from tkinter.filedialog import *
 def move_enemies_fighter(map, body, hero, base, dt):
     """Перемещает бойца 
         hero - главный герой (гг)
@@ -18,6 +20,7 @@ def move_enemies_fighter(map, body, hero, base, dt):
     map.move(body.image, body.Vx, body.Vy)
 
 
+<<<<<<< HEAD
 def move_enemies_bullet(map, body, hero, base, shooter, dt):
    """Перемещает пулю 
         hero - главный герой (гг)
@@ -26,6 +29,14 @@ def move_enemies_bullet(map, body, hero, base, shooter, dt):
        **body** — пуля, которую нужно переместить.
     """  
     body.x = shooter.x - shooter.a//2
+=======
+def move_enemies_bullet(map, body, hero, base, dt):
+    """Перемещает пулю
+         hero - главный герой (гг)
+         map - вся наша карта, ну или платформа
+         base - объект, по которому движется гг
+        **body** — пуля, которую нужно переместить."""
+>>>>>>> d0a2832c7094fa21aae084cd1954640d03972fc9
     body.x += body.Vx * dt
     if hero.y == base.y and hero.x >= base.x0 and hero.x <= base.x1 : # Тут должно быть условие появления пули (когда гг достаточно длизок к стрелку)
         bullet.time = 1
@@ -46,7 +57,7 @@ def move_enemies_bullet(map, body, hero, base, shooter, dt):
     return new_tuple_fighter
     '''
 
-    def recalculate_map_objects_positions(map, map_objects, dt):
+def recalculate_enemies_positions(map, map_objects, dt):
     """Пересчитывает координаты объектов.
 
     Параметры:
@@ -58,3 +69,6 @@ def move_enemies_bullet(map, body, hero, base, shooter, dt):
     for body in map_objects:
         move_enemies_fighter(map, body, hero, base, dt)
         move_enemies_bullet(map, body, hero, base, dt)
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")
