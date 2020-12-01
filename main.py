@@ -35,22 +35,10 @@ menu = Menu(canvas)
 pl1 = Platform(100, 50, "red", canvas)
 global platform_list
 platform_list = [pl1]
-#score = Score(canvas) #создает объект счет
 hero = Hero(x_start, y_start, canvas)# создает объект героя
-#fighter = Fighter(canvas, x, y)
-#shooter = Shooter(canvas, x, y)
-#enemies_list = [fighter, shooter]# создает лист врагов
-
-
-        #map.draw()
 tk.update()
-
-        #score.draw()
-        #for enemy in enemies_list:
-            #enemy.draw()
-        #тут должны выполяняться бинды на движение героя
 while hero.x<=500:
-    hero.draw(canvas)
+    hero.draw()
     tk.update()
     time.sleep(0.01)
 
