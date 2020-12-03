@@ -5,7 +5,9 @@ class Menu():
     """
     def __init__(self, canvas):
         self.canvas = canvas
-        self.id = canvas.create_rectangle(0, 0, 100, 10, fill="red")
-        self.canvas.bind_all('<KeyPress-Return>', self.start_game)# после нажатия enter игра начинается
+        self.id = Label(canvas, text='Press Enter to start')
+        self.started = False
+        self.canvas.bind_all('<KeyPress-Down>', self.start_game)# после нажатия enter игра начинается
+
     def start_game(self, event):
         self.started = True
