@@ -26,7 +26,7 @@ class Fighter:
 
     def attack(self, hero):
         self.attack_sec = time.monotonic()
-        if abs(hero.x - self.x) <= 2 * hero.width  and abs(
+        if abs(hero.x - self.x) <= 2 * hero.width and abs(
                 hero.y - self.y) <= self.height - hero.height and \
                 self.attack_sec - self.sec_after_last_attack > 3:
             self.last_Vx = self.Vx
@@ -62,7 +62,7 @@ class Fighter:
             self.x = platform_list[self.platform].x
             self.Vx = -self.Vx
         elif platform_list[self.platform].x + \
-                platform_list[self.platform].width - self.x -\
+                platform_list[self.platform].width - self.x - \
                 self.width - self.Vx < self.Vx:
             self.x = platform_list[self.platform].x + platform_list[
                 self.platform].width - self.width
