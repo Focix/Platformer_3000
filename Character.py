@@ -13,7 +13,7 @@ class Hero:
         self.height = 10
         self.id = canv.create_rectangle(self.x, self.y, self.x + self.width,
                                         self.y + self.height, fill="blue")
-        self.Vx = 20
+        self.Vx = 15
         self.Vy = 0
         self.health = 5
         self.on_platform = True
@@ -25,7 +25,7 @@ class Hero:
     def magnet_to_platform(self):
         self.on_platform = False
         for platform in platform_list:
-            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 6\
+            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 6 \
                     and platform.x + platform.width >= \
                     self.x + self.width / 2 >= platform.x:
                 self.Vy = - self.Vy
@@ -74,6 +74,13 @@ class Hero:
         if self.y > 400:
             self.health = 0
 
+    def hit(self, enemies_list):
+        for enemy in enemies_list:
+            if self.Vy<0 and 0<enemy.y - self.y <= self.height and enemy.x <= self.x + self.width / 2 <= enemy.x + enemy.width:
+                self.canvas.delete(enemy.id)
+                enemies_list.remove(enemy)
+                self.Vy = -self.Vy
+
 
 if __name__ == "__main__":
 
@@ -106,6 +113,7 @@ if __name__ == "__main__":
             enemy.attack(hero)
             enemy.draw(platform_list)
         hero.draw()
+        hero.hit(enemies_list)
         tk.update()
         canvas.delete(k)
         k = canvas.create_text(30, 30, text=hero.health, font='28',
