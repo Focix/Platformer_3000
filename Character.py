@@ -18,14 +18,14 @@ class Hero:
         self.health = 5
         self.on_platform = True
         self.right = True
-        self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
-        self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
-        self.canvas.bind_all('<KeyPress-Up>', self.jump)
+        self.canvas.bind_all('<KeyPress-d>', self.turn_right)
+        self.canvas.bind_all('<KeyPress-a>', self.turn_left)
+        self.canvas.bind_all('<KeyPress-w>', self.jump)
 
     def magnet_to_platform(self):
         self.on_platform = False
         for platform in platform_list:
-            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 6 \
+            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 6\
                     and platform.x + platform.width >= \
                     self.x + self.width / 2 >= platform.x:
                 self.Vy = - self.Vy
@@ -73,7 +73,6 @@ class Hero:
     def fall(self):
         if self.y > 400:
             self.health = 0
-            print('You died')
 
 
 if __name__ == "__main__":
@@ -93,7 +92,7 @@ if __name__ == "__main__":
     global platform_list
     pl1 = Platform(100, 340, "red", canvas)
     pl2 = Platform(150, 240, 'orange', canvas)
-    pl3 = Platform(300, 250, 'green', canvas)
+    pl3 = Platform(350, 290, 'green', canvas)
     platform_list = [pl1, pl2, pl3]
     global hero
     hero = Hero(100, 320, canvas)
@@ -109,6 +108,9 @@ if __name__ == "__main__":
         hero.draw()
         tk.update()
         canvas.delete(k)
-        k = canvas.create_text(30, 30, text=hero.health, font='28', fill='#FF0000')
+        k = canvas.create_text(30, 30, text=hero.health, font='28',
+                               fill='#FF0000')
         time.sleep(0.01)
-    tk.mainloop()
+    canvas.create_text(230, 30, text='You died.', font='35', fill='black')
+    tk.update()
+    time.sleep(3)
