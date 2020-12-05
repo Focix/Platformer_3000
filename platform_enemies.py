@@ -29,8 +29,9 @@ class Fighter:
         if abs(hero.x - self.x) <= 2 * hero.width and abs(
                 hero.y - self.y) <= self.height - hero.height and \
                 self.attack_sec - self.sec_after_last_attack > 3:
-            self.last_Vx = self.Vx
-            self.Vx = 0
+            if self.Vx !=0:
+                self.last_Vx = self.Vx
+                self.Vx = 0
             hero.health -= 1
             self.sec_after_last_attack = time.monotonic()
             print(hero.health)

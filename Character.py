@@ -18,9 +18,9 @@ class Hero:
         self.health = 5
         self.on_platform = True
         self.right = True
-        self.canvas.bind_all('<KeyPress-d>', self.turn_right)
-        self.canvas.bind_all('<KeyPress-a>', self.turn_left)
-        self.canvas.bind_all('<KeyPress-w>', self.jump)
+        self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
+        self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
+        self.canvas.bind_all('<KeyPress-Up>', self.jump)
 
     def magnet_to_platform(self):
         self.on_platform = False
@@ -86,6 +86,7 @@ if __name__ == "__main__":
 
     tk = Tk()  # создаём новый объект — окно с игровым полем, в нашем случае
     # переменная окна называется tk
+    # tk.title("Lida vs cockroachs")
     tk.title('Game')  # делаем заголовок окна — Games с помощью свойства
 
     # объекта title
