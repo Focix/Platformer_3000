@@ -8,11 +8,11 @@ class Hero:
     def __init__(self, x, y, canv):
         self.x = x
         self.y = y
+        self.step = True
         self.canvas = canv
         self.width = 20
-        self.height = 10
-        self.id = canv.create_rectangle(self.x, self.y, self.x + self.width,
-                                        self.y + self.height, fill="blue")
+        self.height = 30
+        self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER, image=obj2)
         self.Vx = 15
         self.Vy = 0
         self.health = 5
@@ -25,16 +25,16 @@ class Hero:
     def magnet_to_platform(self):
         self.on_platform = False
         for platform in platform_list:
-            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 6 \
+            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 20\
                     and platform.x + platform.width >= \
-                    self.x + self.width / 2 >= platform.x:
+                    self.x >= platform.x:
                 self.Vy = - self.Vy
                 break
             if self.Vy <= 0 \
                     and platform.x + platform.width >= \
                     self.x + self.width / 2 >= platform.x \
                     and -self.height <= self.y - platform.y <= 0:
-                self.y = platform.y - 10
+                self.y = platform.y - self.height
                 self.Vy = 0
                 self.on_platform = True
                 break
@@ -45,6 +45,7 @@ class Hero:
     def turn_right(self, event):
         self.x += self.Vx
         self.right = True
+        self.step = not self.step
         for platform in platform_list:
             platform.following(self)
         for enemy in enemies_list:
@@ -53,6 +54,7 @@ class Hero:
     def turn_left(self, event):
         self.x -= self.Vx
         self.right = False
+        self.step = not self.step
         for platform in platform_list:
             platform.following(self)
         for enemy in enemies_list:
@@ -67,11 +69,36 @@ class Hero:
         self.fall()
         self.magnet_to_platform()
         self.canvas.delete(self.id)
-        self.id = self.canvas.create_rectangle(self.x, self.y, self.x + 20,
-                                               self.y + 10, fill="blue")
+        if self.Vy!=0:
+            if not self.right:
+                self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER,
+                                               image=obj1)
+            else:
+                self.id = self.canvas.create_image(self.x, self.y,
+                                                   anchor=CENTER,
+                                                   image=obj2)
+
+
+        elif self.right:
+            if self.step:
+                self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER, image=obj_right1)
+            else:
+                self.id = self.canvas.create_image(self.x, self.y,
+                                                   anchor=CENTER,
+                                                   image=obj_right2)
+        else:
+            if self.step:
+                self.id = self.canvas.create_image(self.x, self.y,
+                                                   anchor=CENTER,
+                                                   image=obj_left1)
+            else:
+                self.id = self.canvas.create_image(self.x, self.y,
+                                                   anchor=CENTER,
+                                                   image=obj_left2)
+
 
     def fall(self):
-        if self.y > 400:
+        if self.y > 500:
             self.health = 0
 
     def hit(self, enemies_list):
@@ -99,10 +126,16 @@ if __name__ == "__main__":
     canvas.pack()  # говорим холсту, что у каждого видимого элемента будут
     # свои отдельные координаты
     global platform_list
-    pl1 = Platform(100, 340, "red", canvas)
+    pl1 = Platform(100, 350, "red", canvas)
     pl2 = Platform(150, 240, 'orange', canvas)
     pl3 = Platform(350, 290, 'green', canvas)
     platform_list = [pl1, pl2, pl3]
+    obj1 = PhotoImage(file='лида лево.png')
+    obj2 = PhotoImage(file='лида право.png')
+    obj_right1 = PhotoImage(file='мал лида идет направо 1.png')
+    obj_right2 = PhotoImage(file='мал лида идет направо 2.png')
+    obj_left1 = PhotoImage(file='мал лида налево 1.png')
+    obj_left2 = PhotoImage(file='мал лида налево2.png')
     global hero
     hero = Hero(100, 320, canvas)
     global enemies_list
@@ -113,7 +146,7 @@ if __name__ == "__main__":
     while hero.health > 0:
         for enemy in enemies_list:
             enemy.attack(hero)
-            enemy.draw(platform_list)
+            enemy.draw()
         hero.draw()
         hero.hit(enemies_list)
         tk.update()
