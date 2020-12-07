@@ -76,7 +76,9 @@ class Hero:
 
     def hit(self, enemies_list):
         for enemy in enemies_list:
-            if self.Vy<0 and 0<enemy.y - self.y <= self.height and enemy.x <= self.x + self.width / 2 <= enemy.x + enemy.width:
+            if self.Vy < 0 and 0 < enemy.y - self.y <= self.height and (
+                    enemy.x <= self.x + self.width <= enemy.x + enemy.width or
+                    enemy.x <= self.x <= enemy.x + enemy.width):
                 self.canvas.delete(enemy.id)
                 enemies_list.remove(enemy)
                 self.Vy = -self.Vy
