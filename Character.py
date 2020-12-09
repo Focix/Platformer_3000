@@ -12,7 +12,8 @@ class Hero:
         self.canvas = canv
         self.width = 20
         self.height = 30
-        self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER, image=obj2)
+        self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER,
+                                           image=obj2)
         self.Vx = 15
         self.Vy = 0
         self.health = 5
@@ -25,7 +26,8 @@ class Hero:
     def magnet_to_platform(self):
         self.on_platform = False
         for platform in platform_list:
-            if self.Vy >= 0 and 0 < self.y - platform.y - platform.height <= 20\
+            if self.Vy >= 0 and \
+                    0 < self.y - platform.y - platform.height <= 20 \
                     and platform.x + platform.width >= \
                     self.x >= platform.x:
                 self.Vy = - self.Vy
@@ -71,19 +73,21 @@ class Hero:
         self.fall()
         self.magnet_to_platform()
         self.canvas.delete(self.id)
-        if self.Vy!=0:
+        if self.Vy != 0:
             if not self.right:
-                self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER,
-                                               image=obj1)
+                self.id = self.canvas.create_image(self.x, self.y,
+                                                   anchor=CENTER,
+                                                   image=obj1)
             else:
                 self.id = self.canvas.create_image(self.x, self.y,
                                                    anchor=CENTER,
                                                    image=obj2)
 
-
         elif self.right:
             if self.step:
-                self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER, image=obj_right1)
+                self.id = self.canvas.create_image(self.x, self.y,
+                                                   anchor=CENTER,
+                                                   image=obj_right1)
             else:
                 self.id = self.canvas.create_image(self.x, self.y,
                                                    anchor=CENTER,
@@ -97,7 +101,6 @@ class Hero:
                 self.id = self.canvas.create_image(self.x, self.y,
                                                    anchor=CENTER,
                                                    image=obj_left2)
-
 
     def fall(self):
         if self.y > 500:
@@ -142,9 +145,13 @@ if __name__ == "__main__":
     enemy1 = Fighter(canvas, 1, platform_list)
     enemies_list = [enemy1]
     tk.update()
-    k = canvas.create_text(30, 30, text=hero.health, font='28')
+    hp = canvas.create_text(30, 30, text=hero.health, font='28')
+    timer = time.monotonic()
+    time_now = time.monotonic() - timer
+    tm = canvas.create_text(450, 30, text=time_now, font='28')
     while hero.health > 0:
-        if abs(hero.x - finish.x) <= hero.width and abs(hero.y - finish.y) <= hero.height:
+        if abs(hero.x - finish.x) <= hero.width/2 and abs(
+                hero.y - finish.y) <= hero.height:
             break
         for enemy in enemies_list:
             enemy.attack(hero)
@@ -152,11 +159,15 @@ if __name__ == "__main__":
         hero.draw()
         hero.hit()
         tk.update()
-        canvas.delete(k)
-        k = canvas.create_text(30, 30, text=hero.health, font='28',
+        canvas.delete(hp)
+        canvas.delete(tm)
+        time_now = time.monotonic() - timer
+        time_now = float('{:.1f}'.format(time_now))
+        hp = canvas.create_text(30, 30, text=hero.health, font='28',
                                fill='#FF0000')
+        tm = canvas.create_text(450, 30, text=time_now, font='28')
         time.sleep(0.01)
-    if hero.health <=0:
+    if hero.health <= 0:
         canvas.create_text(230, 30, text='You died.', font='35', fill='black')
     else:
         canvas.create_text(230, 30, text='You won.', font='35', fill='black')

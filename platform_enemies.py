@@ -1,5 +1,4 @@
-from tkinter import *
-from platform_map import *
+
 from Character import *
 import time
 
@@ -23,12 +22,15 @@ class Fighter:
         self.attacking = False
         self.image1 = PhotoImage(file='таракан лево.png')
         self.image2 = PhotoImage(file='таракан право.png')
-        self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER, image=self.image2)
+        self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER,
+                                           image=self.image2)
 
     def attack(self, hero):
         self.attack_sec = time.monotonic()
-        if ((0<=hero.x - self.x <= 4*hero.width and self.right) or (0<=self.x - hero.x <= 4*hero.width and not self.right)) and \
-                self.y -self.height< hero.y < self.y + self.height and \
+        if ((0 <= hero.x - self.x <= 4 * hero.width and self.right) or (
+                0 <= self.x - hero.x <= 4 * hero.width and not self.right)) \
+                and self.y - self.height < hero.y + hero.height <\
+                self.y + self.height and \
                 self.attack_sec - self.sec_after_last_attack > 3:
             if self.Vx > 0:
                 self.right = True
@@ -49,7 +51,7 @@ class Fighter:
                 self.attacking = False
 
     def following(self, hero):
-        if hero.right and self.x - hero.Vx>self.list[self.platform].x:
+        if hero.right and self.x - hero.Vx > self.list[self.platform].x:
             self.canvas.delete(self.id)
             self.x -= hero.Vx
         else:
