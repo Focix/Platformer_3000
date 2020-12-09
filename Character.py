@@ -50,6 +50,7 @@ class Hero:
             platform.following(self)
         for enemy in enemies_list:
             enemy.following(self)
+        finish.following(self)
 
     def turn_left(self, event):
         self.x -= self.Vx
@@ -59,6 +60,7 @@ class Hero:
             platform.following(self)
         for enemy in enemies_list:
             enemy.following(self)
+        finish.following(self)
 
     def jump(self, event):
         if self.on_platform:
@@ -101,7 +103,7 @@ class Hero:
         if self.y > 500:
             self.health = 0
 
-    def hit(self, enemies_list):
+    def hit(self):
         for enemy in enemies_list:
             if self.Vy < 0 and 0 < enemy.y - self.y <= self.height and (
                     enemy.x <= self.x + self.width <= enemy.x + enemy.width or
@@ -125,7 +127,7 @@ if __name__ == "__main__":
     # создаём новый холст — 400 на 500 пикселей, где и будем рисовать игру
     canvas.pack()  # говорим холсту, что у каждого видимого элемента будут
     # свои отдельные координаты
-    global platform_list
+    finish = Finish(400, 290, canvas)
     pl1 = Platform(100, 350, "red", canvas)
     pl2 = Platform(150, 240, 'orange', canvas)
     pl3 = Platform(350, 290, 'green', canvas)
@@ -136,24 +138,27 @@ if __name__ == "__main__":
     obj_right2 = PhotoImage(file='мал лида идет направо 2.png')
     obj_left1 = PhotoImage(file='мал лида налево 1.png')
     obj_left2 = PhotoImage(file='мал лида налево2.png')
-    global hero
     hero = Hero(100, 320, canvas)
-    global enemies_list
     enemy1 = Fighter(canvas, 1, platform_list)
     enemies_list = [enemy1]
     tk.update()
     k = canvas.create_text(30, 30, text=hero.health, font='28')
     while hero.health > 0:
+        if abs(hero.x - finish.x) <= hero.width and abs(hero.y - finish.y) <= hero.height:
+            break
         for enemy in enemies_list:
             enemy.attack(hero)
             enemy.draw()
         hero.draw()
-        hero.hit(enemies_list)
+        hero.hit()
         tk.update()
         canvas.delete(k)
         k = canvas.create_text(30, 30, text=hero.health, font='28',
                                fill='#FF0000')
         time.sleep(0.01)
-    canvas.create_text(230, 30, text='You died.', font='35', fill='black')
+    if hero.health <=0:
+        canvas.create_text(230, 30, text='You died.', font='35', fill='black')
+    else:
+        canvas.create_text(230, 30, text='You won.', font='35', fill='black')
     tk.update()
     time.sleep(3)
