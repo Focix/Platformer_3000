@@ -1,4 +1,3 @@
-
 class Platform:
     def __init__(self, x, y, color, canvas):
         self.canvas = canvas
@@ -58,3 +57,7 @@ class Finish:
                                                   self.x + 10, self.y - 37.5,
                                                   self.x, self.y - 25,
                                                   fill='red')
+
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")

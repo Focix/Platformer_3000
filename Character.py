@@ -123,7 +123,7 @@ def game(event):
     pl2 = Platform(150, 240, 'orange', canvas)
     pl3 = Platform(350, 290, 'green', canvas)
     pl4 = Platform(540, 250, 'green', canvas)
-    pl5 = Platform(760, 150, "red", canvas)
+    pl5 = Platform(760, 160, "red", canvas)
     global platform_list, enemies_list
     platform_list = [pl1, pl2, pl3, pl4, pl5]
     finish_x = platform_list[-1].x + 50
