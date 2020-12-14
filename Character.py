@@ -106,14 +106,13 @@ class Hero:
         if self.y > 500:
             self.health = 0
 
-    def hit(self):
-        for enemy in enemies_list:
-            if self.Vy < 0 and 0 < enemy.y - self.y <= self.height and (
-                    enemy.x <= self.x + self.width <= enemy.x + enemy.width or
-                    enemy.x <= self.x <= enemy.x + enemy.width):
-                self.canvas.delete(enemy.id)
-                enemies_list.remove(enemy)
-                self.Vy = -self.Vy
+    def hit(self, enemy):
+        if self.Vy < 0 and 0 < enemy.y - self.y <= self.height and (
+                enemy.x <= self.x + self.width <= enemy.x + enemy.width or
+                enemy.x <= self.x <= enemy.x + enemy.width):
+            self.canvas.delete(enemy.id)
+            enemy.alive = False
+            self.Vy = -self.Vy
 
 
 def game(event):
@@ -138,7 +137,8 @@ def game(event):
     obj_left2 = PhotoImage(file='мал лида налево2.png')
     hero = Hero(100, 320, canvas)
     enemy1 = Fighter(canvas, 1, platform_list)
-    enemies_list = [enemy1]
+    enemy2 = Fighter(canvas, 3, platform_list)
+    enemies_list = [enemy1, enemy2]
     tk.update()
     hp = canvas.create_text(30, 30, text=hero.health, font='28')
     timer = time.monotonic()
@@ -154,10 +154,19 @@ def game(event):
             game_finished = True
             break
         for enemy in enemies_list:
-            enemy.attack(hero)
-            enemy.draw()
+            if not enemy.alive:
+                if enemy.skull_count >= 80:
+                    enemies_list.remove(enemy)
+                    canvas.delete(enemy.skull_id)
+                else:
+                    enemy.skull()
+            else:
+                enemy.attack(hero)
+                enemy.draw()
+        for enemy in enemies_list:
+            if enemy.alive:
+                hero.hit(enemy)
         hero.draw()
-        hero.hit()
         tk.update()
         canvas.delete(hp)
         canvas.delete(tm)
@@ -177,9 +186,7 @@ def game(event):
 if __name__ == "__main__":
     tk = Tk()  # создаём новый объект — окно с игровым полем, в нашем случае
     # переменная окна называется tk
-    # tk.title("Lida vs cockroachs")
-    tk.title('Game')  # делаем заголовок окна — Games с помощью свойства
-
+    tk.title("Polina vs Cockroaches") # делаем заголовок окна — Games с помощью свойства
     # объекта title
     tk.resizable(0, 0)  # запрещаем менять размеры окна, для этого используем
     # свойство resizable
@@ -188,8 +195,8 @@ if __name__ == "__main__":
     canvas.pack()  # говорим холсту, что у каждого видимого элемента будут
     # свои отдельные координаты
     game_finished = False
-    name = canvas.create_text(250, 250, text='Lida vs Cockroachs', font='Time 34',
-                              fill='red')
+    name = canvas.create_text(250, 250, text='Polina vs Cockroaches',
+                              font='Time 34', fill='red')
     start = canvas.create_text(250, 480, text='Press enter to start',
                                fill='black')
     canvas.bind_all('<KeyPress-Return>', game)

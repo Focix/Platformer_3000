@@ -1,4 +1,3 @@
-
 from Character import *
 import time
 
@@ -9,6 +8,8 @@ class Fighter:
         self.canvas = canv
         self.list = platform_list
         self.platform = i
+        self.alive = True
+        self.skull_count = 0
         self.x = platform_list[i].x
         self.y = platform_list[i].y - 30
         self.Vx = 0.3
@@ -22,6 +23,8 @@ class Fighter:
         self.attacking = False
         self.image1 = PhotoImage(file='таракан лево.png')
         self.image2 = PhotoImage(file='таракан право.png')
+        self.skull_image = PhotoImage(file='череп.png')
+        self.skull_id = None
         self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER,
                                            image=self.image2)
 
@@ -31,7 +34,7 @@ class Fighter:
              and self.right) or
             (0 <= self.x - self.width / 2 - hero.x <= 2 * hero.width
              and not self.right)) \
-                and self.y - self.height < hero.y + hero.height <\
+                and self.y - self.height < hero.y + hero.height < \
                 self.y + self.height and \
                 self.attack_sec - self.sec_after_last_attack > 3:
             if self.Vx > 0:
@@ -87,6 +90,14 @@ class Fighter:
         self.canvas.delete(self.id)
         self.id = self.canvas.create_image(self.x, self.y, anchor=CENTER,
                                            image=self.image2)
+
+    def skull(self):
+        self.canvas.delete(self.skull_id)
+        self.skull_id = self.canvas.create_image(self.x, self.y - self.height -
+                                                 0.5 * self.skull_count,
+                                                 anchor=CENTER,
+                                                 image=self.skull_image)
+        self.skull_count += 1
 
 
 if __name__ == "__main__":
