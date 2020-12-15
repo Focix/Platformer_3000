@@ -119,6 +119,8 @@ class Hero:
 
 
 def game(event):
+    filename = PhotoImage(file="кухня.png")
+    canvas.create_image(0, 0, anchor=NW, image=filename)
     canvas.delete(name, start)
     global finish
     pl1 = Platform(100, 350, "red", canvas)
@@ -185,29 +187,24 @@ def game(event):
                                 fill='#FF0000')
         tm = canvas.create_text(450, 30, text=time_now, font='28')
         time.sleep(0.01)
+    time.sleep(2)
+    canvas.delete('all')
     if hero.health <= 0:
-        canvas.create_text(230, 30, text='You died.', font='35', fill='black')
+        canvas.create_text(250, 250, text='You died.', font='Time 34', fill='black')
     else:
-        canvas.create_text(230, 30, text='You won.', font='35', fill='black')
-    tk.update()
+        canvas.create_text(250, 250, text='You won!', font='Time 34', fill='black')
 
 
 if __name__ == "__main__":
-    tk = Tk()  # создаём новый объект — окно с игровым полем, в нашем случае
-    # переменная окна называется tk
-    tk.title("Polina vs Cockroaches") # делаем заголовок окна — Games с помощью свойства
-    # объекта title
-    tk.resizable(0, 0)  # запрещаем менять размеры окна, для этого используем
-    # свойство resizable
+    tk = Tk()
+    tk.title("Polina vs Cockroaches")
+    tk.resizable(0, 0)
     canvas = Canvas(tk, width=500, height=500, highlightthickness=0)
-    # создаём новый холст — 400 на 500 пикселей, где и будем рисовать игру
-    canvas.pack()  # говорим холсту, что у каждого видимого элемента будут
-    # свои отдельные координаты
+    canvas.pack()
     game_finished = False
     name = canvas.create_text(250, 250, text='Polina vs Cockroaches',
                               font='Time 34', fill='red')
     start = canvas.create_text(250, 480, text='Press enter to start',
                                fill='black')
     canvas.bind_all('<KeyPress-Return>', game)
-    if not game_finished:
-        tk.mainloop()
+    tk.mainloop()
