@@ -1,6 +1,7 @@
 from platform_map import *
 from tkinter import *
-from platform_enemies import *
+from fighter import *
+from shooter import *
 import time
 
 
@@ -62,6 +63,8 @@ class Hero:
             platform.following(self)
         for enemy in enemies_list:
             enemy.following(self)
+        for bullet in bullet_list:
+            bullet.following(self)
         finish.following(self)
 
     def jump(self, event):
@@ -137,8 +140,10 @@ def game(event):
     obj_left2 = PhotoImage(file='мал лида налево2.png')
     hero = Hero(100, 320, canvas)
     enemy1 = Fighter(canvas, 1, platform_list)
-    enemy2 = Fighter(canvas, 3, platform_list)
+    enemy2 = Shooter(canvas, 3, platform_list)
     enemies_list = [enemy1, enemy2]
+    global bullet_list
+    bullet_list = []
     tk.update()
     hp = canvas.create_text(30, 30, text=hero.health, font='28')
     timer = time.monotonic()
@@ -161,11 +166,15 @@ def game(event):
                 else:
                     enemy.skull()
             else:
-                enemy.attack(hero)
+                enemy.attack(hero, bullet_list)
                 enemy.draw()
         for enemy in enemies_list:
             if enemy.alive:
                 hero.hit(enemy)
+        for bullet in bullet_list:
+            bullet.move(hero)
+            if bullet.get:
+                bullet_list.remove(bullet)
         hero.draw()
         tk.update()
         canvas.delete(hp)

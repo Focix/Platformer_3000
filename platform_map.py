@@ -5,7 +5,7 @@ class Platform:
         self.y = y
         self.color = color
         self.height = 20
-        self.width = 150
+        self.width = 170
         self.id = canvas.create_rectangle(self.x, self.y, self.x + self.width,
                                           self.y + self.height,
                                           fill=self.color)
