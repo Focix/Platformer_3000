@@ -1,9 +1,11 @@
+import random
 class Platform:
-    def __init__(self, x, y, color, canvas):
+    def __init__(self, x, y, canvas):
+        colors = ["red", 'orange', 'green', 'blue', 'magenta', 'pink',]
         self.canvas = canvas
         self.x = x
         self.y = y
-        self.color = color
+        self.color = random.choice(colors)
         self.height = 20
         self.width = 170
         self.id = canvas.create_rectangle(self.x, self.y, self.x + self.width,

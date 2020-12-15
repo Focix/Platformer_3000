@@ -123,11 +123,11 @@ def game(event):
     canvas.create_image(0, 0, anchor=NW, image=filename)
     canvas.delete(name, start)
     global finish
-    pl1 = Platform(100, 350, "red", canvas)
-    pl2 = Platform(150, 240, 'orange', canvas)
-    pl3 = Platform(350, 290, 'green', canvas)
-    pl4 = Platform(540, 250, 'green', canvas)
-    pl5 = Platform(760, 160, "red", canvas)
+    pl1 = Platform(100, 350,  canvas)
+    pl2 = Platform(150, 240,  canvas)
+    pl3 = Platform(350, 290,  canvas)
+    pl4 = Platform(540, 250,  canvas)
+    pl5 = Platform(760, 160,  canvas)
     global platform_list, enemies_list
     platform_list = [pl1, pl2, pl3, pl4, pl5]
     finish_x = platform_list[-1].x + 50
