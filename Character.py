@@ -2,6 +2,7 @@ from platform_map import *
 from tkinter import *
 from fighter import *
 from shooter import *
+from coins import *
 import time
 
 
@@ -18,6 +19,7 @@ class Hero:
         self.Vx = 10
         self.Vy = 0
         self.health = 5
+        self.coins = 0
         self.on_platform = True
         self.right = True
         self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
@@ -54,6 +56,8 @@ class Hero:
         for enemy in enemies_list:
             enemy.following(self)
         finish.following(self)
+        for coin in coins_list:
+            coin.following(self)
 
     def turn_left(self, event):
         self.x -= self.Vx
@@ -66,6 +70,8 @@ class Hero:
         for bullet in bullet_list:
             bullet.following(self)
         finish.following(self)
+        for coin in coins_list:
+            coin.following(self)
 
     def jump(self, event):
         if self.on_platform:
@@ -118,21 +124,46 @@ class Hero:
             self.Vy = -self.Vy
 
 
+def recording(s, count):
+    """
+    Функция записывает в файл 'score_board.txt' результаты игроков
+    и сортирует их
+    s - строка, содержащаяа имя игрока
+    count - результат игрока
+    """
+    s = str(count) + ' - ' + s
+    with open('score_board', 'r') as reading:
+        lines = [s.split()]
+        for line in reading:
+            if line != '\n' and line != '':
+                lines.append(line.split())
+        lines.sort(key=lambda x: x[0])
+        lines.reverse()
+    with open('score_board', 'w') as writing:
+        writing.truncate()
+        for line in lines:
+            print(' '.join(line), file=writing)
+
+
 def game(event):
+    canvas.delete('all')
+    name_label.destroy()
+    name_entry.destroy()
     filename = PhotoImage(file="кухня.png")
     canvas.create_image(0, 0, anchor=NW, image=filename)
-    canvas.delete(name, start)
     global finish
-    pl1 = Platform(100, 350,  canvas)
-    pl2 = Platform(150, 240,  canvas)
-    pl3 = Platform(350, 290,  canvas)
-    pl4 = Platform(540, 250,  canvas)
-    pl5 = Platform(760, 160,  canvas)
-    global platform_list, enemies_list
+    pl1 = Platform(100, 350, canvas)
+    pl2 = Platform(150, 240, canvas)
+    pl3 = Platform(350, 290, canvas)
+    pl4 = Platform(540, 250, canvas)
+    pl5 = Platform(760, 160, canvas)
+
+    global platform_list, enemies_list, coins_list
     platform_list = [pl1, pl2, pl3, pl4, pl5]
     finish_x = platform_list[-1].x + 50
     finish_y = platform_list[-1].y
     finish = Finish(finish_x, finish_y, canvas)
+
     global obj1, obj2, obj_right1, obj_right2, obj_left1, obj_left2
     obj1 = PhotoImage(file='лида лево.png')
     obj2 = PhotoImage(file='лида право.png')
@@ -140,6 +171,9 @@ def game(event):
     obj_right2 = PhotoImage(file='мал лида идет направо 2.png')
     obj_left1 = PhotoImage(file='мал лида налево 1.png')
     obj_left2 = PhotoImage(file='мал лида налево2.png')
+
+    coin1 = Coin(380, 290, canvas)
+    coins_list = [coin1]
     hero = Hero(100, 320, canvas)
     enemy1 = Fighter(canvas, 1, platform_list)
     enemy2 = Shooter(canvas, 3, platform_list)
@@ -177,22 +211,33 @@ def game(event):
             bullet.move(hero)
             if bullet.get:
                 bullet_list.remove(bullet)
+        for coin in coins_list:
+            coin.taken(hero, coins_list)
         hero.draw()
         tk.update()
         canvas.delete(hp)
         canvas.delete(tm)
         time_now = time.monotonic() - timer
         time_now = float('{:.1f}'.format(time_now))
-        hp = canvas.create_text(30, 30, text=hero.health, font='28',
+        hp = canvas.create_text(30, 30, text=hero.health, font='Time 15',
                                 fill='#FF0000')
-        tm = canvas.create_text(450, 30, text=time_now, font='28')
+        tm = canvas.create_text(450, 30, text=time_now, font='Time 15')
         time.sleep(0.01)
-    time.sleep(2)
     canvas.delete('all')
+
     if hero.health <= 0:
-        canvas.create_text(250, 250, text='You died.', font='Time 34', fill='black')
+        canvas.create_text(250, 250, text='You died.', font='Time 34',
+                           fill='black')
+        score = hero.coins
+
     else:
-        canvas.create_text(250, 250, text='You won!', font='Time 34', fill='black')
+        canvas.create_text(250, 250, text='You won!', font='Time 34',
+                           fill='black')
+        score = hero.coins + (60 - time_now)//5 + hero.health
+    canvas.create_text(250, 400,
+                       text=name.get() + ', your score is ' + str(score),
+                       font='Time 20')
+    recording(name.get(), score)
 
 
 if __name__ == "__main__":
@@ -202,9 +247,17 @@ if __name__ == "__main__":
     canvas = Canvas(tk, width=500, height=500, highlightthickness=0)
     canvas.pack()
     game_finished = False
-    name = canvas.create_text(250, 250, text='Polina vs Cockroaches',
-                              font='Time 34', fill='red')
+    poster = canvas.create_text(250, 250, text='Polina vs Cockroaches',
+                                font='Time 34', fill='red')
     start = canvas.create_text(250, 480, text='Press enter to start',
                                fill='black')
+    name_label = Label(text='My name is')
+    name_label.place(relx=.3, rely=.1, anchor="c")
+    name = StringVar()
+    name_entry = Entry(canvas, textvariable=name)
+    name_entry.place(relx=.5, rely=.1, anchor="c")
+    print(name_entry.get())
+    while name.get() == '':
+        tk.update()
     canvas.bind_all('<KeyPress-Return>', game)
     tk.mainloop()

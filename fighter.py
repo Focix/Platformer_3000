@@ -44,7 +44,6 @@ class Fighter:
             self.Vx = 0
             hero.health -= 1
             self.sec_after_last_attack = time.monotonic()
-            print(hero.health)
             self.attacking = True
         else:
             if self.attacking and \
