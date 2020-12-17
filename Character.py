@@ -144,6 +144,7 @@ def recording(s, count):
         for line in lines:
             print(' '.join(line), file=writing)
 
+
 def platforms():
     global finish
     pl1 = Platform(100, 350, canvas)
@@ -168,6 +169,7 @@ def platforms():
     finish_y = platform_list[-1].y
     finish = Finish(finish_x, finish_y, canvas)
 
+
 def enemies():
     global enemies_list, coins_list
     coin1 = Coin(380, 290, canvas)
@@ -184,6 +186,7 @@ def enemies():
     enemies_list = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
     global bullet_list
     bullet_list = []
+
 
 def photos():
     global obj1, obj2, obj_right1, obj_right2, obj_left1, obj_left2
@@ -259,7 +262,7 @@ def game(event=''):
     else:
         canvas.create_text(250, 250, text='You won!', font='Time 34',
                            fill='black')
-        score = hero.coins * 5 + (60 - time_now)//5 + hero.health
+        score = hero.coins * 5 + (60 - time_now) // 5 + hero.health
     canvas.create_text(250, 400,
                        text=name.get() + ', your score is ' + str(score),
                        font='Time 20')
@@ -283,7 +286,7 @@ if __name__ == "__main__":
     name_entry = Entry(canvas, textvariable=name)
     name_entry.place(relx=.5, rely=.1, anchor="c")
     print(name_entry.get())
-    #while name.get() == '':
-       # tk.update()
+    while name.get() == '':
+        tk.update()
     canvas.bind_all('<KeyPress-Return>', game)
     tk.mainloop()
