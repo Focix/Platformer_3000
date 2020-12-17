@@ -113,7 +113,8 @@ class Bullet:
         else:
             self.Vx = -1.5
         self.id = self.canvas.create_oval(self.x - 10, self.y + 10,
-                                          self.x + 10, self.y - 10, fill='white', width=2)
+                                          self.x + 10, self.y - 10,
+                                          fill='white', width=2)
 
     def move(self, hero):
         if (hero.x - self.x) ** 2 + (hero.y - self.y) ** 2 <= hero.width ** 2:
@@ -127,7 +128,7 @@ class Bullet:
             self.canvas.delete(self.id)
             self.id = self.canvas.create_oval(self.x - 10, self.y + 10,
                                               self.x + 10, self.y - 10,
-                                              width=2,fill='white')
+                                              width=2, fill='white')
 
     def following(self, hero):
         if hero.right:
@@ -137,6 +138,7 @@ class Bullet:
         else:
             self.canvas.delete(self.id)
             self.x += hero.Vx
+
 
 if __name__ == "__main__":
     print("This module is not for direct call!")

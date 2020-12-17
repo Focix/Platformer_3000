@@ -1,7 +1,9 @@
 import random
+
+
 class Platform:
     def __init__(self, x, y, canvas):
-        colors = ["red", 'orange', 'green', 'blue', 'magenta', 'pink',]
+        colors = ["red", 'orange', 'green', 'blue', 'magenta', 'pink', ]
         self.canvas = canvas
         self.x = x
         self.y = y
