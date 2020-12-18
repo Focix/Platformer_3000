@@ -15,6 +15,9 @@ class Platform:
                                           fill=self.color)
 
     def following(self, hero):
+        """
+               Перемещает объект при движении героя
+               """
         if hero.right:
             self.canvas.delete(self.id)
             self.x -= hero.Vx
@@ -43,6 +46,9 @@ class Finish:
                                               self.y - 25, fill='red')
 
     def following(self, hero):
+        """
+               Перемещает объект при движении героя
+               """
         if hero.right:
             self.canvas.delete(self.id1, self.id2)
             self.x -= hero.Vx

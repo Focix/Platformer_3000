@@ -7,6 +7,9 @@ import time
 
 
 class Hero:
+    """
+    Описывает персонажа игры по начальным координатам
+    """
     def __init__(self, x, y, canv):
         self.x = x
         self.y = y
@@ -27,6 +30,9 @@ class Hero:
         self.canvas.bind_all('<KeyPress-Up>', self.jump)
 
     def magnet_to_platform(self):
+        """
+        Прикрепляет персонажа к платформе, если он находится достаточно близко
+        """
         self.on_platform = False
         for platform in platform_list:
             if self.Vy >= 0 and \
@@ -48,6 +54,10 @@ class Hero:
             self.Vy -= 0.45
 
     def turn_right(self, event):
+        """
+        После нажатия кнопки "вправо" двигает предметы и
+        платформы влево на расстояние, равное скорости героя
+        """
         self.right = True
         self.step = not self.step
         for platform in platform_list:
@@ -61,6 +71,10 @@ class Hero:
             coin.following(self)
 
     def turn_left(self, event):
+        """
+        После нажатия кнопки "влево" двигает предметы и
+        платформы вправо на расстояние, равное скорости героя
+        """
         self.right = False
         self.step = not self.step
         for platform in platform_list:
@@ -74,11 +88,17 @@ class Hero:
             coin.following(self)
 
     def jump(self, event):
+        """
+        Перемещает персонажа вверх при нажатии кнопки "вверх"
+        """
         if self.on_platform:
             self.Vy = 12
             self.on_platform = False
 
     def draw(self):
+        """
+        Отрисовывает модель персонажа в зависимости от его состояния
+        """
         self.fall()
         self.magnet_to_platform()
         self.canvas.delete(self.id)
@@ -112,10 +132,16 @@ class Hero:
                                                    image=obj_left2)
 
     def fall(self):
+        """
+        Обнуляет здоровье героя, если он упал
+        """
         if self.y > 500:
             self.health = 0
 
     def hit(self, enemy):
+        """
+        Убивает противника, если герой прыгнул сверху на него
+        """
         if self.Vy < 0 and 0 < enemy.y - self.y <= self.height and (
                 enemy.x <= self.x + self.width <= enemy.x + enemy.width or
                 enemy.x <= self.x <= enemy.x + enemy.width):

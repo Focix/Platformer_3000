@@ -57,6 +57,9 @@ class Shooter:
                 self.attacking = False
 
     def following(self, hero):
+        """
+               Перемещает объект при движении героя
+               """
         if hero.right and self.x - hero.Vx > self.list[self.platform].x:
             self.canvas.delete(self.id)
             self.x -= hero.Vx
@@ -131,6 +134,9 @@ class Bullet:
                                               width=2, fill='white')
 
     def following(self, hero):
+        """
+               Перемещает объект при движении героя
+               """
         if hero.right:
             self.canvas.delete(self.id)
             self.x -= hero.Vx

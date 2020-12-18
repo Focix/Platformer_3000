@@ -3,6 +3,10 @@ import time
 
 
 class Fighter:
+    """
+    Описывает противника, ударяющего героя при непосредственной близости,
+    по платформе, на которой он находится,
+    """
 
     def __init__(self, canv, i, platform_list):
         self.canvas = canv
@@ -29,6 +33,9 @@ class Fighter:
                                            image=self.image2)
 
     def attack(self, hero, list):
+        """
+        Ударяет героя, если он находится на необходимом растоянии
+        """
         self.attack_sec = time.monotonic()
         if ((0 <= hero.x - self.x - self.width / 2 <= 2 * hero.width
              and self.right) or
@@ -55,6 +62,9 @@ class Fighter:
                 self.attacking = False
 
     def following(self, hero):
+        """
+        Перемещает объект при движении героя
+        """
         if hero.right and self.x - hero.Vx > self.list[self.platform].x:
             self.canvas.delete(self.id)
             self.x -= hero.Vx
@@ -63,6 +73,9 @@ class Fighter:
             self.x += hero.Vx
 
     def draw(self):
+        """
+        Отрисовывает противника в зависимости от того, в какую сторону он идет
+        """
         if self.x + self.Vx - self.list[self.platform].x <= self.Vx:
             self.x = self.list[self.platform].x
             self.Vx = -self.Vx
@@ -91,6 +104,9 @@ class Fighter:
                                            image=self.image2)
 
     def skull(self):
+        """
+        Отрисовывает череп, появляющийся при смерти противника
+        """
         self.canvas.delete(self.skull_id)
         self.skull_id = self.canvas.create_image(self.x, self.y - self.height -
                                                  0.5 * self.skull_count,

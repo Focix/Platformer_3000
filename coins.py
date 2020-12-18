@@ -20,6 +20,9 @@ class Coin:
             coins_list.remove(self)
 
     def following(self, hero):
+        """
+               Перемещает объект при движении героя
+               """
         if hero.right:
             self.canvas.delete(self.id)
             self.x -= hero.Vx
