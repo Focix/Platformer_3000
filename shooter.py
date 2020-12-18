@@ -28,6 +28,10 @@ class Shooter:
                                            image=self.image2)
 
     def attack(self, hero, list):
+        """
+        Описывает паттерн аттаки противника, создает пулю,
+        если персонаж находится достаточно близко
+        """
         self.attack_sec = time.monotonic()
         if ((0 <= hero.x - self.x - self.width / 2 <= 6 * hero.width
              and self.right) or
@@ -120,6 +124,9 @@ class Bullet:
                                           fill='white', width=2)
 
     def move(self, hero):
+        """
+        Перемещает пулю и проверяет, попала ли она в героя
+        """
         if (hero.x - self.x) ** 2 + (hero.y - self.y) ** 2 <= hero.width ** 2:
             hero.health -= 1
             self.canvas.delete(self.id)
